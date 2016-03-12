@@ -5,11 +5,64 @@
 		<title>Hello, World!</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
 	</head>
 	<body>
-		<div>
-  			<h1>Hello, World!</h1>
+		<div id="container1" class="container">
+  			
+			<div class="form-group">
+				<label for="stockTiker" class="col-lg-2 control-label">Stock Ticker:</label>
+				<div class="col-lg-2">
+					<input type="text" class="form-control" id="stockTiker" placeholder="AAPL">
+				</div>
+				<div class="col-lg-2">
+					<button id="stockTickerBtn" type="submit" class="btn btn-default">Get closing price</button>
+				</div>
+				<div class="col-lg-3">
+					<p id="stockTickerResult" class="lead"></p>
+				</div>
+			</div>
+
 		</div>
 	</body>
+
+	<script>
+
+		$(document).ready(function() {
+
+
+			$('#stockTickerBtn').click(function() {
+
+				var now = new Date();
+				var year = now.getFullYear();
+				var month = ("0" + (now.getMonth() + 1)).slice(-2);
+				var day = ("0" + now.getDate()).slice(-2);
+				var date = year +"-"+ month +"-"+ day;
+				var ticker = $('#stockTiker').val().toUpperCase();
+				$.ajax({
+					url: "/stock/"+ ticker +"/"+ date,
+					dataType: "json",
+					success: function(response) {
+
+						if(response.success) {
+							$('#stockTickerResult').text(ticker +": "+ response.data.close);
+						}
+						else {
+							$('#stockTickerResult').text("Could not fetch data");
+						}
+						
+					},
+					error: function(e) {
+						console.log("Could not fetch data: "+ e);
+					}
+				});
+
+			});
+			
+
+		});
+
+	</script>
 </html>

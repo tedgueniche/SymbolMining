@@ -1,0 +1,8 @@
+{
+	"success": true,
+	"data": {
+		"ticker": "{{ ticker }}",
+		"date": "{{ date }}",
+		"close": "{{ close }}"
+	}
+}
