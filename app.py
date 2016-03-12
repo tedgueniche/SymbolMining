@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-	return redirect('/index')
+	return render_template('index.html')
 
 @app.route('/stock/<ticker>/<date>', methods=["GET"])
 def getStock(ticker,date):
@@ -16,4 +16,4 @@ def getStock(ticker,date):
 
 if __name__ == '__main__':
 	app.debug = True
-	app.run(port=33507)
+	app.run(host='0.0.0.0')
